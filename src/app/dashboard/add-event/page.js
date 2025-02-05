@@ -1,11 +1,18 @@
-import React from "react";
+"use client";
 
 export default function page() {
+  async function handelAddEvent(e) {
+    e.preventDefault();
+    console.log(e.target.title.value);
+  }
   return (
     <>
       <section>
         <div>
-          <form className="max-w-[500px] mx-auto p-5 shadow-md mt-4 border rounded-xl flex flex-col gap-3">
+          <form
+            onSubmit={handelAddEvent}
+            className="max-w-[500px] mx-auto p-5 shadow-md mt-4 border rounded-xl flex flex-col gap-3"
+          >
             <h1 className="text-2xl font-Mon font-semibold text-center">
               Add Event{" "}
             </h1>
@@ -67,7 +74,10 @@ export default function page() {
                 className="border px-4 py-2 rounded-md mt-3 font-Mon"
               />
             </div>
-            <button className="border px-4 py-2 block rounded-md mt-3 font-Mon">
+            <button
+              type="submit"
+              className="border px-4 py-2 block rounded-md mt-3 font-Mon"
+            >
               Add Event
             </button>
           </form>
