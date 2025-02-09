@@ -21,7 +21,10 @@ export default function Nav() {
                 <li>Home</li>
               </Link> */}
             </ul>
-            <button>Login</button>
+            <Link href="/login">
+              <button>Login</button>
+            </Link>
+
             <div className="w-10 h-10 rounded-full border"></div>
           </div>
         </div>

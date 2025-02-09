@@ -3,7 +3,7 @@
 export default function page() {
   async function handelAddEvent(e) {
     e.preventDefault();
-    console.log(e.target.title.value);
+    // console.log(e.target.title.value);
   }
   return (
     <>
