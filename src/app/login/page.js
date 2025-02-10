@@ -12,7 +12,7 @@ export default function page() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    console.log(data);
+
     const result = await signIn("credentials", {
       email: data.email,
       password: data.password,

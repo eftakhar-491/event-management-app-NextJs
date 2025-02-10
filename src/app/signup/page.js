@@ -25,7 +25,7 @@ export default function page() {
     const formData = new FormData(e.target);
 
     const data = Object.fromEntries(formData);
-    console.log(data);
+
     const res = await fetch("/api/signup", {
       method: "POST",
 
@@ -35,7 +35,6 @@ export default function page() {
       },
     });
     const result = await res.json();
-    console.log(result);
   };
   const handleOrganizerSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +47,6 @@ export default function page() {
       },
     });
     const result = await res.json();
-    console.log(result);
   };
   return (
     <section className="flex items-center justify-center min-h-screen bg-[linear-gradient(to_right,#1B8ABF,#473FAF,#1E42B2,#416FE7)]">

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import SigninSignout from "./SigninSignout";
 
 export default function Nav() {
   return (
@@ -21,9 +22,7 @@ export default function Nav() {
                 <li>Home</li>
               </Link> */}
             </ul>
-            <Link href="/login">
-              <button>Login</button>
-            </Link>
+            <SigninSignout />
 
             <div className="w-10 h-10 rounded-full border"></div>
           </div>

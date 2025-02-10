@@ -1,6 +1,8 @@
 export default async function page(context) {
   const companyParams = await context.params;
 
+  console.log(companyParams);
+
   return (
     <>
       <section>
@@ -10,7 +12,7 @@ export default async function page(context) {
               <div className="w-1/2 ">
                 <h2 className="font-Kon text-white ">Party event organizer</h2>
                 <h1 className="text-6xl font-Mon font-semibold text-white">
-                  Company name
+                  askujbaf
                 </h1>
                 <p className="md:mr-10 text-white text-sm mt-1">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio
