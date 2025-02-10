@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,48 @@ import GoogleLogin from "@/components/Shared/GoogleLogin";
 import Link from "next/link";
 
 export default function page() {
+  const [formData, setFormData] = useState({
+    userName: "",
+    email: "",
+    password: "",
+    organizeName: "",
+    photo: "",
+    category: "",
+    description: "",
+  });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+
+    const data = Object.fromEntries(formData);
+    console.log(data);
+    const res = await fetch("/api/signup", {
+      method: "POST",
+
+      body: JSON.stringify({ ...data, role: "User" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await res.json();
+    console.log(result);
+  };
+  const handleOrganizerSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch("/api/signup", {
+      method: "POST",
+
+      body: JSON.stringify({ ...formData, role: "Organizer" }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await res.json();
+    console.log(result);
+  };
   return (
     <section className="flex items-center justify-center min-h-screen bg-[linear-gradient(to_right,#1B8ABF,#473FAF,#1E42B2,#416FE7)]">
       <div className="backdrop-blur-lg mt-16 w-full lg:w-1/2 mx-auto rounded-lg bg-slate-950/30 p-6 flex flex-col items-center justify-center">
@@ -24,7 +66,7 @@ export default function page() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="account">
-            <form className="font-Mon text-white">
+            <form onSubmit={handelSubmit} className="font-Mon text-white">
               <div>
                 <label
                   className="font-medium text-lg text-white mb-1 block"
@@ -78,7 +120,10 @@ export default function page() {
             <GoogleLogin />
           </TabsContent>
           <TabsContent value="Organizer">
-            <form className="text-white font-Mon">
+            <form
+              className="text-white font-Mon"
+              onSubmit={handleOrganizerSubmit}
+            >
               <label
                 className="mb-4 font-medium text-xl text-white block"
                 htmlFor="email"
@@ -86,7 +131,7 @@ export default function page() {
                 Organizer Account
               </label>
               <hr className="mb-2" />
-              <div className=" flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <div className="w-1/2">
                   <label
                     className="font-medium text-lg text-white mb-1 block"
@@ -97,14 +142,14 @@ export default function page() {
                   <Input
                     required
                     type="text"
-                    className=""
                     name="userName"
-                    placeholder="Enter your Name"
+                    value={formData.userName}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="w-1/2">
                   <label
-                    className=" font-medium text-lg text-white mb-1 block"
+                    className="font-medium text-lg text-white mb-1 block"
                     htmlFor="email"
                   >
                     Email Address
@@ -113,6 +158,8 @@ export default function page() {
                     required
                     type="email"
                     name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Enter your email"
                   />
                 </div>
@@ -121,7 +168,7 @@ export default function page() {
               <div>
                 <label
                   className="mt-4 font-medium text-lg text-white mb-1 block"
-                  htmlFor="userName"
+                  htmlFor="password"
                 >
                   Password
                 </label>
@@ -129,7 +176,9 @@ export default function page() {
                   required
                   type="password"
                   name="password"
-                  placeholder="Enter your passsword"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
                 />
               </div>
               <label
@@ -150,24 +199,26 @@ export default function page() {
                   <Input
                     required
                     type="text"
-                    className=""
                     name="organizeName"
+                    value={formData.organizeName}
+                    onChange={handleChange}
                     placeholder="Enter your Company Name"
                   />
                 </div>
                 <div className="w-1/2">
                   <label
                     className="font-medium text-lg text-white mb-1 block"
-                    htmlFor="organizeName"
+                    htmlFor="photo"
                   >
-                    Photo
+                    Photo URL
                   </label>
                   <Input
                     required
                     type="text"
-                    className=""
-                    name="organizeName"
-                    placeholder="Organize"
+                    name="photo"
+                    value={formData.photo}
+                    onChange={handleChange}
+                    placeholder="Organize banner Photo URL"
                   />
                 </div>
                 <div className="w-1/2">
@@ -177,11 +228,11 @@ export default function page() {
                   >
                     Category
                   </label>
-
                   <select
                     className="bg-black/35 w-full border py-[6px] px-2 rounded-md"
                     name="category"
-                    id=""
+                    value={formData.category}
+                    onChange={handleChange}
                   >
                     <option value="party">Party</option>
                     <option value="Job">Job</option>
@@ -193,16 +244,15 @@ export default function page() {
               <div className="">
                 <label
                   className="font-medium text-lg text-white mb-1 block"
-                  htmlFor="organizeName"
+                  htmlFor="description"
                 >
                   Description
                 </label>
-
                 <Textarea
                   required
-                  type="text"
-                  className=""
                   name="description"
+                  value={formData.description}
+                  onChange={handleChange}
                   placeholder="write about your Company"
                 />
               </div>
