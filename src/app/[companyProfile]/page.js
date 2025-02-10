@@ -1,7 +1,13 @@
+import dbConnect, { collectionName } from "@/lib/dbConnect";
+
 export default async function page(context) {
   const companyParams = await context.params;
+  const params = companyParams.companyProfile.split("%20").join(" ");
 
-  console.log(companyParams);
+  const organizerCol = dbConnect(collectionName.organizers);
+  const companyData = await organizerCol.findOne({ organizeName: params });
+
+  console.log(params, companyData);
 
   return (
     <>
@@ -12,19 +18,21 @@ export default async function page(context) {
               <div className="w-1/2 ">
                 <h2 className="font-Kon text-white ">Party event organizer</h2>
                 <h1 className="text-6xl font-Mon font-semibold text-white">
-                  askujbaf
+                  {companyData?.organizeName}
                 </h1>
-                <p className="md:mr-10 text-white text-sm mt-1">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio
-                  velit nostrum voluptatibus, sapiente porro consequatur
-                  repellat deleniti culpa magni sequi.
+                <p className="pr-4 md:mr-10 text-white text-sm mt-1">
+                  {companyData?.description}
                 </p>
                 <button className="text-white mt-3 hover:border-[#6DFFFF] border flex gap-2 rounded-2xl items-center px-6 py-[6px] text-[16px] bg-gradient-to-r hover:from-[#36269D] hover:to-[#7C397F] from-[#7C397F] to-[#36269D] transition-colors duration-500  rounded-4xl cursor-pointer ">
                   Show all Event
                 </button>
               </div>
               <div className="w-1/2 h-[350px]">
-                <img className="h-full w-full" src="/bg.jpg" alt="hero" />
+                <img
+                  className="h-full w-full rounded-md"
+                  src={companyData?.photo}
+                  alt="hero"
+                />
               </div>
             </div>
           </div>

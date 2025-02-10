@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import GoogleLogin from "@/components/Shared/GoogleLogin";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function page() {
   const [formData, setFormData] = useState({
@@ -47,7 +48,15 @@ export default function page() {
       },
     });
     const result = await res.json();
+    if (result.message === "Organizer already exists") {
+      alert(result.message);
+    }
+    if (result.insertedId) {
+      alert("Account created successfully");
+      redirect("/login");
+    }
   };
+
   return (
     <section className="flex items-center justify-center min-h-screen bg-[linear-gradient(to_right,#1B8ABF,#473FAF,#1E42B2,#416FE7)]">
       <div className="backdrop-blur-lg mt-16 w-full lg:w-1/2 mx-auto rounded-lg bg-slate-950/30 p-6 flex flex-col items-center justify-center">

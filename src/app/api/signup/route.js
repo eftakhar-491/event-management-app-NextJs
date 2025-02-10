@@ -20,11 +20,10 @@ export const POST = async (req) => {
     password: hashedPassword,
     role: body?.role,
   };
-  const result = await usersCol.insertOne(userData);
   const organizerData = {
     organizeName: body?.organizeName,
     photo: body?.photo,
-    userId: result.insertedId,
+
     category: body?.category,
     description: body?.description,
   };
@@ -35,9 +34,12 @@ export const POST = async (req) => {
     if (organizer) {
       NextResponse.json({ message: "Organizer already exists" });
     } else {
-      const organizerResult = await organizerCol.insertOne(organizerData);
+      const result = await usersCol.insertOne(userData);
+      const organizerResult = await organizerCol.insertOne({
+        ...organizerData,
+        userId: result.insertedId,
+      });
+      return NextResponse.json(result);
     }
   }
-
-  return NextResponse.json(result);
 };
