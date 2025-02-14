@@ -19,6 +19,7 @@ export const POST = async (req) => {
     userName: body?.userName,
     password: hashedPassword,
     role: body?.role,
+    organizeName: body?.organizeName,
   };
   const organizerData = {
     organizeName: body?.organizeName,
@@ -27,14 +28,15 @@ export const POST = async (req) => {
     category: body?.category,
     description: body?.description,
   };
+  const result = await usersCol.insertOne(userData);
+
   if (body?.role === "Organizer") {
     const organizer = await organizerCol.findOne({
-      organizeName: body?.organizeName,
+      organizeName: { $eq: body?.organizeName },
     });
     if (organizer) {
-      NextResponse.json({ message: "Organizer already exists" });
+      return NextResponse.json({ message: "Organizer already exists" });
     } else {
-      const result = await usersCol.insertOne(userData);
       const organizerResult = await organizerCol.insertOne({
         ...organizerData,
         userId: result.insertedId,

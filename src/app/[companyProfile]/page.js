@@ -1,13 +1,17 @@
 import dbConnect, { collectionName } from "@/lib/dbConnect";
 
-export default async function page(context) {
+export default async function Page(context) {
+  // Fixed function name to start with an uppercase letter
   const companyParams = await context.params;
   const params = companyParams.companyProfile.split("%20").join(" ");
 
-  const organizerCol = dbConnect(collectionName.organizers);
+  const eventsCol = await dbConnect(collectionName.events);
+  const organizerCol = await dbConnect(collectionName.organizers);
   const companyData = await organizerCol.findOne({ organizeName: params });
-
-  console.log(params, companyData);
+  const companyEvents = await eventsCol
+    .find({ organizeName: params })
+    .toArray(); // Added toArray() to retrieve the events
+  console.log(params, companyEvents);
 
   return (
     <>
@@ -48,29 +52,35 @@ export default async function page(context) {
             </div>
             {/* card */}
             <div className="mt-6 max-w-[1440px] mx-auto px-[5%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white border p-5 shadow-md rounded-lg overflow-hidden">
-                <img
-                  className="w-full rounded-md h-48 object-cover"
-                  src="/bg.jpg"
-                  alt="Event 1"
-                />
-                <div className="mt-4 font-Mon">
-                  <h3 className="mb-2 text-xl font-Mon font-semibold">
-                    Event Title 1
-                  </h3>
-                  <hr />
-                  <p className=" mt-1 text-sm">
-                    Event description goes here. It provides a brief overview of
-                    the event.
-                  </p>
-                  <p>Location: </p>
-                  <p>Date & Time:</p>
-                  <p>Price:</p>
-                  <button className="w-full text-center justify-center text-white mt-3 hover:border-[#6DFFFF] border flex gap-2 rounded-2xl items-center px-6 py-[6px] text-[16px] bg-gradient-to-r hover:from-[#36269D] hover:to-[#7C397F] from-[#7C397F] to-[#36269D] transition-colors duration-500  rounded-4xl cursor-pointer ">
-                    Show Details
-                  </button>
+              {companyEvents.map((event) => (
+                <div
+                  key={event._id}
+                  className="bg-white border p-5 shadow-md rounded-lg overflow-hidden"
+                >
+                  <img
+                    className="w-full rounded-md h-48 object-cover"
+                    src={event.photo}
+                    alt={event.title || "Event"}
+                  />
+                  <div className="mt-4 font-Mon">
+                    <h3 className="mb-2 text-xl font-Mon font-semibold">
+                      {event.title || "Event Title"}
+                    </h3>
+                    <hr />
+                    <p className=" mt-1 text-sm">
+                      {event.description || "Event description goes here."}
+                    </p>
+                    <p>Location: {event.location || "N/A"}</p>
+                    <p>
+                      Date & Time: {event.date} {event.time}
+                    </p>
+                    <p>Price: {event.ticketPrice || "Free"}</p>
+                    <button className="w-full text-center justify-center text-white mt-3 hover:border-[#6DFFFF] border flex gap-2 rounded-2xl items-center px-6 py-[6px] text-[16px] bg-gradient-to-r hover:from-[#36269D] hover:to-[#7C397F] from-[#7C397F] to-[#36269D] transition-colors duration-500  rounded-4xl cursor-pointer ">
+                      Show Details
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
