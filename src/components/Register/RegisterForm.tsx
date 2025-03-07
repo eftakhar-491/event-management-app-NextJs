@@ -1,49 +1,65 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useState } from "react";
 
-export function LoginForm({
+export function RegisterForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
+  const [userType, setUserType] = useState("user");
+
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
+        <h1 className="text-2xl font-bold">Register an account</h1>
         <p className="text-balance text-sm text-muted-foreground">
-          Enter your email below to login to your account
+          Fill in the details below to create your account
         </p>
       </div>
-      <div className="grid gap-6">
+      <div className="grid grid-cols-2 gap-6">
+        <div className="grid gap-2">
+          <Label htmlFor="fullName">Full Name</Label>
+          <Input id="fullName" type="text" placeholder="John Doe" required />
+        </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" type="email" placeholder="m@example.com" required />
         </div>
         <div className="grid gap-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
-            <Link
-              href="/register"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </Link>
-          </div>
+          <Label htmlFor="password">Password</Label>
           <Input id="password" type="password" required />
         </div>
-        <Button type="submit" className="w-full cursor-pointer">
-          Login
+        <div className="grid gap-2">
+          <Label htmlFor="photo">Choose Photo</Label>
+          <Input id="photo" type="file" accept="image/*" />
+        </div>
+        <div className="grid gap-2 col-span-2">
+          <Label htmlFor="userType">User Type</Label>
+          <select
+            id="userType"
+            value={userType}
+            onChange={(e) => setUserType(e.target.value)}
+            className="border rounded p-2"
+          >
+            <option value="user">User</option>
+            <option value="organizer">Organizer</option>
+          </select>
+        </div>
+        <Button type="submit" className="w-full cursor-pointer col-span-2">
+          Register
         </Button>
-        <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+        <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border col-span-2">
           <span className="relative z-10 bg-black px-2 text-muted-foreground">
             Or continue with
           </span>
         </div>
         <Button
           variant="outline"
-          className="w-full bg-transparent cursor-pointer"
+          className="w-full bg-transparent cursor-pointer col-span-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
@@ -51,13 +67,13 @@ export function LoginForm({
               fill="currentColor"
             />
           </svg>
-          Login with GitHub
+          Register with GitHub
         </Button>
       </div>
-      <div className="text-center text-sm">
-        Don&apos;t have an account?{" "}
-        <Link href="/register" className="underline underline-offset-4">
-          Register
+      <div className="text-center text-sm col-span-2">
+        Already have an account?{" "}
+        <Link href="/login" className="underline underline-offset-4">
+          Login
         </Link>
       </div>
     </form>

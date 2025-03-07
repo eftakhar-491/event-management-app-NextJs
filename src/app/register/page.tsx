@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/Login/LoginForm";
+import { RegisterForm } from "@/components/Register/RegisterForm";
 import { Background } from "@/components/Shared/Background";
 import { GalleryVerticalEnd } from "lucide-react";
 
@@ -6,7 +6,6 @@ export default function page() {
   return (
     <>
       <Background />
-
       <div className="grid min-h-svh lg:grid-cols-2 max-w-[1400px] mx-auto">
         <div className="flex flex-col gap-4 p-6 md:p-10 bg-black">
           <div className="flex justify-center gap-2 md:justify-start">
@@ -19,7 +18,7 @@ export default function page() {
           </div>
           <div className="flex flex-1 items-center justify-center">
             <div className="w-full">
-              <LoginForm />
+              <RegisterForm />
             </div>
           </div>
         </div>
@@ -34,9 +33,9 @@ export default function page() {
               style={{
                 WebkitTextStroke: "0.9px #ffffff",
               }}
-              className="absolute -z-20 font-extrabold text-transparent text-[200px] top-1/2 left-0 opacity-35 -translate-y-1/2  "
+              className="absolute -z-20 font-extrabold text-transparent text-[140px] top-1/2 left-0 opacity-35 -translate-y-1/2  "
             >
-              LOGIN
+              REGISTER
             </h1>
           </div>
           <div className="w-full h-full flex-col flex justify-center ">

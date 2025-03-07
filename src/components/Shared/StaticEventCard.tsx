@@ -46,7 +46,7 @@ export default function StaticEventCard() {
   return (
     <div className="flex justify-center mt-10 border p-4 rounded-2xl transition-all duration-300 hover:scale-105">
       <Link
-        href={`/event/${dummyEvent.id}`}
+        href={`/events/${dummyEvent.id}`}
         className="group relative block w-80"
       >
         <div className="relative aspect-[3/2] overflow-hidden rounded-xl">

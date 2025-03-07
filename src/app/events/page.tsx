@@ -12,7 +12,7 @@ import {
 import { motion } from "framer-motion";
 
 // import SpotLight from "@/components/Shared/SpotLight";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,37 @@ import StaticEventCard from "@/components/Shared/StaticEventCard";
 export default function Page() {
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("");
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const countdownDate = new Date("2023-12-31T00:00:00").getTime(); // Set your event date here
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setTimeLeft({ days, hours, minutes, seconds });
+
+      if (distance < 0) {
+        clearInterval(interval);
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -136,6 +167,38 @@ export default function Page() {
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
+          </div>
+        </div>
+      </section>
+      <section className="min-h-screen flex items-center justify-center relative bg-purple-600">
+        <div className="text-center text-white">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Devent Design</h1>
+          <p className="text-lg mb-8">EVENT STARTS IN</p>
+          <div className="flex justify-center space-x-4 mb-6">
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <span className="text-2xl">{timeLeft.days}</span>
+              <div>DAYS</div>
+            </div>
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <span className="text-2xl">{timeLeft.hours}</span>
+              <div>HOURS</div>
+            </div>
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <span className="text-2xl">{timeLeft.minutes}</span>
+              <div>MINUTES</div>
+            </div>
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <span className="text-2xl">{timeLeft.seconds}</span>
+              <div>SECONDS</div>
+            </div>
+          </div>
+          <div className="flex justify-center space-x-4">
+            <Button className="bg-pink-500 hover:bg-pink-600 text-white">
+              REGISTER NOW
+            </Button>
+            <Button className="bg-purple-700 hover:bg-purple-800 text-white">
+              LEARN MORE
+            </Button>
           </div>
         </div>
       </section>
