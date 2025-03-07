@@ -45,8 +45,9 @@ export default function Nav() {
                 <Link href="/dashboard">
                   <NavigationMenuItem>Dashboard</NavigationMenuItem>
                 </Link>
-
-                <NavigationMenuItem>Login</NavigationMenuItem>
+                <Link href="/login">
+                  <NavigationMenuItem>Login</NavigationMenuItem>
+                </Link>
               </NavigationMenuList>
             </NavigationMenu>
           </div>

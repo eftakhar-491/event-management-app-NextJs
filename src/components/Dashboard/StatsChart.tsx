@@ -19,14 +19,14 @@ const data = [
 
 export function StatsChart() {
   return (
-    <div className="h-[300px] w-full">
+    <div className="h-[300px] w-full bg-black">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
           <Tooltip
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
                 return (
-                  <div className="rounded-lg border bg-background p-2 shadow-sm">
+                  <div className="rounded-lg border bg-black p-2 shadow-sm">
                     <div className="grid grid-cols-2 gap-2">
                       <div className="flex flex-col">
                         <span className="text-[0.70rem] uppercase text-muted-foreground">

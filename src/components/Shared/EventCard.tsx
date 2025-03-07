@@ -25,15 +25,15 @@ export default function EventCard({
       <div className="relative h-full">
         <img className="w-full h-full object-cover" src={image} alt={title} />
       </div>
-      <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 transition-all duration-300 ease-in-out h-[100px] group-hover:h-[70%] overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 bg-black/20 backdrop-blur-2xl bg-opacity-90 transition-all duration-300 ease-in-out h-[100px] group-hover:h-[70%] overflow-hidden">
         <div className="p-4">
-          <h2 className="text-xl font-semibold mb-2 text-gray-800">{title}</h2>
-          <p className="text-gray-600">{description}</p>
-          <p className="text-sm text-black mt-3">
+          <h2 className="text-xl font-semibold mb-2 text-white">{title}</h2>
+          <p className="text-white">{description}</p>
+          <p className="text-sm text-white mt-3">
             {date} at {time}
           </p>
-          <p className="text-sm text-black">{location}</p>
-          <p className="text-sm text-black">{price}</p>
+          <p className="text-sm text-white">{location}</p>
+          <p className="text-sm text-white">{price}</p>
           {/* <div className="transition-all duration-300 ease-in-out max-h-[40px] group-hover:max-h-[calc(100%-40px)] overflow-hidden">
            
           </div> */}

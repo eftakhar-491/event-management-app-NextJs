@@ -22,13 +22,13 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="grid lg:grid-cols-[280px_1fr]">
-        <aside className="border-r bg-background/50 backdrop-blur">
+        <aside className="border-r bg-black backdrop-blur">
           <div className="flex h-16 items-center gap-2 border-b px-6">
             <Wallet className="h-6 w-6" />
             <span className="font-bold">Vaultify</span>
           </div>
           <div className="px-4 py-4">
-            <Input placeholder="Search" className="bg-background/50" />
+            <Input placeholder="Search" className="bg-black" />
           </div>
           <nav className="space-y-2 px-2">
             <Button variant="ghost" className="w-full justify-start gap-2">
@@ -70,9 +70,9 @@ export default function Page() {
                 Aug 13, 2023 - Aug 18, 2023
               </div>
             </div>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2 bg-black">
               Ethereum Network
-              <ChevronDown className="h-4 w-4" />
+              {/* <ChevronDown className="h-4 w-4" /> */}
             </Button>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -104,7 +104,7 @@ export default function Page() {
               }}
             />
           </div>
-          <Card className="mt-6 p-6">
+          <Card className="mt-6 p-6 bg-black text-white">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold">General Statistics</h2>
               <div className="flex gap-2">
