@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/Shared/Nav";
+import React from "react";
+import { ReduxProvider } from "@/store/ReduxProvider";
+import AuthProvider from "@/Firebase/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,11 +18,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <header>
-          <Nav />
-        </header>
-        <main>{children}</main>
-        <footer></footer>
+        <ReduxProvider>
+          <AuthProvider>
+            <header>
+              <Nav />
+            </header>
+            <main>{children}</main>
+            <footer></footer>
+          </AuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
