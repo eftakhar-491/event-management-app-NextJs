@@ -8,13 +8,23 @@ import { useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "@/Firebase/AuthProvider";
 import { useAppDispatch, useAppSelector } from "@/store/Hooks/useRedux";
-import { checkAuthState } from "@/store/AuthSlice";
+import {
+  checkAuthState,
+  createUser,
+  logOut,
+  signInWithGoogle,
+} from "@/store/AuthSlice";
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    fullName: string;
+    email: string;
+    password: string;
+    userType: string;
+  }>({
     fullName: "",
     email: "",
     password: "",
@@ -27,9 +37,10 @@ export function RegisterForm({
   }, [dispatch]);
 
   const user = useAppSelector((state) => state?.auth?.user);
+
   console.log(user);
 
-  const { createUser, signInWithGoogle } = useContext(AuthContext);
+  // const { createUser, signInWithGoogle } = useContext(AuthContext);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -41,21 +52,28 @@ export function RegisterForm({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
-    createUser(formData.email, formData.password)
-      .then((data: any) => {
-        // console.log(data);
-      })
-      .catch((err: any) => {
-        // console.log(err);
-      });
-    console.log(formData);
+    // createUser(formData.email, formData.password)
+    //   .then((data: any) => {
+    //     // console.log(data);
+    //   })
+    //   .catch((err: any) => {
+    //     // console.log(err);
+    //   });
+
+    const res = await dispatch(
+      createUser({ email: formData.email, password: formData.password })
+    );
+    console.log(res);
   };
 
   return (
     <>
+      <div className="text-white" onClick={() => dispatch(logOut())}>
+        logOut
+      </div>
       <form
         className={cn("flex flex-col gap-6", className)}
         {...props}
@@ -110,7 +128,7 @@ export function RegisterForm({
               onChange={handleChange}
             />
           </div>
-          <div className="grid gap-2 col-span-2">
+          {/* <div className="grid gap-2 col-span-2">
             <Label htmlFor="userType">User Type</Label>
             <select
               id="userType"
@@ -121,7 +139,8 @@ export function RegisterForm({
               <option value="user">User</option>
               <option value="organizer">Organizer</option>
             </select>
-          </div>
+          </div> */}
+
           <Button type="submit" className="w-full cursor-pointer col-span-2">
             Register
           </Button>
@@ -133,7 +152,7 @@ export function RegisterForm({
         </div>
       </form>
       <Button
-        onClick={() => signInWithGoogle()}
+        onClick={() => dispatch(signInWithGoogle())}
         variant="outline"
         className="mt-5 w-full bg-transparent cursor-pointer col-span-2"
       >
