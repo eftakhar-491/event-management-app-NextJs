@@ -42,12 +42,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch(clearUser());
   };
 
-  //   const updateUserProfile = (name: string, photo: string) => {
-  //     return updateProfile(auth?.currentUser, {
-  //       displayName: name,
-  //       photoURL: photo,
-  //     });
-  //   };
+  // const updateUserProfile = (name: string, photo: string) => {
+  //   return updateProfile(auth?.currentUser, {
+  //     displayName: name,
+  //     photoURL: photo,
+  //   });
+  // };
 
   // useEffect(() => {
   //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

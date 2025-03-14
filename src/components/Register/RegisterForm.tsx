@@ -66,6 +66,7 @@ export function RegisterForm({
     const res = await dispatch(
       createUser({ email: formData.email, password: formData.password })
     );
+    const updateUserRes = "a";
     console.log(res);
   };
 
@@ -128,7 +129,7 @@ export function RegisterForm({
               onChange={handleChange}
             />
           </div>
-          {/* <div className="grid gap-2 col-span-2">
+          <div className="grid gap-2 col-span-2">
             <Label htmlFor="userType">User Type</Label>
             <select
               id="userType"
@@ -139,7 +140,7 @@ export function RegisterForm({
               <option value="user">User</option>
               <option value="organizer">Organizer</option>
             </select>
-          </div> */}
+          </div>
 
           <Button type="submit" className="w-full cursor-pointer col-span-2">
             Register

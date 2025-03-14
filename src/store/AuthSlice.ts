@@ -13,9 +13,10 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { app } from "../Firebase/Firebase.init";
-import { error } from "console";
+
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
@@ -48,9 +49,11 @@ export const checkAuthState = createAsyncThunk(
             const userData: any = {
               email: currentUser.email,
               uid: currentUser.uid,
+              photoURL: currentUser.photoURL,
+              displayName: currentUser.displayName,
             };
             dispatch(setUser(userData));
-
+            console.log(currentUser);
             // Call API to store JWT token in cookies
             try {
               const res = await axios.post(
@@ -93,6 +96,28 @@ export const createUser = createAsyncThunk(
       return { email: userCredential.user.email, uid: userCredential.user.uid };
     } catch (err: any) {
       return rejectWithValue({ error: err.message }); // Send error message to Redux state
+    }
+  }
+);
+// update
+export const updateUserProfile = createAsyncThunk(
+  "auth/updateUserProfile",
+  async (
+    { name, photo }: { name: string; photo: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      if (!auth.currentUser) throw new Error("No authenticated user found");
+
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: photo,
+      });
+
+      // Return updated user data
+      return { name, photo };
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
   }
 );
