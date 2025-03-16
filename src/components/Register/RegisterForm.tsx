@@ -13,7 +13,9 @@ import {
   createUser,
   logOut,
   signInWithGoogle,
+  updateUserProfile,
 } from "@/store/AuthSlice";
+import axios from "axios";
 
 export function RegisterForm({
   className,
@@ -66,8 +68,17 @@ export function RegisterForm({
     const res = await dispatch(
       createUser({ email: formData.email, password: formData.password })
     );
-    const updateUserRes = "a";
-    console.log(res);
+
+    // Check if the action was rejected
+    console.log(createUser.rejected.match(res));
+    if (!createUser.rejected.match(res)) {
+      axios.post("/", {
+        email: formData.email,
+        // photoURL: formData.photoURL,
+        displayName: formData.fullName,
+        role: formData.userType,
+      });
+    }
   };
 
   return (

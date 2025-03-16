@@ -39,7 +39,7 @@ const initialState: UserState = {
 };
 
 // Thunk
-export const checkAuthState = createAsyncThunk(
+export const checkAuthState = createAsyncThunk<UserState | null, void>(
   "auth/checkAuthState",
   async (_, { dispatch, rejectWithValue }) => {
     try {
@@ -58,9 +58,20 @@ export const checkAuthState = createAsyncThunk(
             try {
               const res = await axios.post(
                 `${process.env.NEXT_PUBLIC_APIURL}/jwt/createCookie`,
-                userData
+                { email: userData.email, uid: userData.uid }
               );
-              console.log("JWT Response:", res.data);
+              // console.log("JWT Response:", res.data);
+
+              if (currentUser?.providerData[0]?.providerId === "google.com") {
+                // Call API to store user in database
+                const userRes = await axios.post("/", {
+                  email: userData.email,
+                  uid: userData.uid,
+                  photoURL: currentUser.photoURL,
+                  displayName: currentUser.displayName,
+                  role: "user",
+                });
+              }
             } catch (error) {
               console.error("JWT API Error:", error);
             }
@@ -93,7 +104,12 @@ export const createUser = createAsyncThunk(
         email,
         password
       );
-      return { email: userCredential.user.email, uid: userCredential.user.uid };
+
+      return {
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        provider: userCredential.user.providerData[0].providerId,
+      };
     } catch (err: any) {
       return rejectWithValue({ error: err.message }); // Send error message to Redux state
     }
