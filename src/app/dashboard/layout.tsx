@@ -15,12 +15,19 @@ import {
   Home,
   LayoutDashboard,
   LifeBuoy,
+  PlusCircle,
   Settings,
   Wallet,
 } from "lucide-react";
+
+import Link from "next/link";
 import React from "react";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="grid lg:grid-cols-[280px_1fr]">
@@ -33,14 +40,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Input placeholder="Search" className="bg-black" />
           </div>
           <nav className="space-y-2 px-2">
-            <Button variant="ghost" className="w-full justify-start gap-2">
-              <LayoutDashboard className="h-4 w-4" />
-              Dashboard
-            </Button>
-            <Button variant="ghost" className="w-full justify-start gap-2">
+            <Link href="/dashboard" className="block">
+              <Button variant="ghost" className="w-full justify-start gap-2">
+                <LayoutDashboard className="h-4 w-4" />
+                Dashboard
+              </Button>{" "}
+            </Link>
+            <Link href="/dashboard/add-event" className={` block`}>
+              <Button variant="ghost" className="w-full justify-start gap-2">
+                <PlusCircle className="h-4 w-4" />
+                Add Event
+              </Button>
+            </Link>
+            {/* <Button variant="ghost" className="w-full justify-start gap-2">
               <BarChart3 className="h-4 w-4" />
               Statistics & Income
-            </Button>
+            </Button> */}
             <Button variant="ghost" className="w-full justify-start gap-2">
               <Globe className="h-4 w-4" />
               Market
